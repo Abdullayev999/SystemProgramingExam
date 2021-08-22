@@ -1,0 +1,118 @@
+﻿<UserControl x:Class="SystemProgramingExam.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SystemProgramingExam.Views"
+             mc:Ignorable="d" 
+             xmlns:t="http://schemas.xceed.com/wpf/xaml/toolkit"
+             d:DesignHeight="450" d:DesignWidth="1000">
+    <DockPanel>
+        <Grid Background="AliceBlue" DockPanel.Dock="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition/> 
+            </Grid.ColumnDefinitions>
+
+            <ProgressBar Grid.ColumnSpan="2" Minimum="0" Height="20" Maximum="100" Value="{Binding Value,UpdateSourceTrigger=PropertyChanged}" Grid.Row="0"></ProgressBar>
+            
+            <UniformGrid  Grid.Row="1" Grid.ColumnSpan="2"  Columns="3">
+                <Label FontSize="20" HorizontalContentAlignment="Center">Forbidden words from :</Label>
+                <RadioButton IsChecked="{Binding IsWrite ,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center">Write</RadioButton>
+                <RadioButton  Grid.Column="2" HorizontalAlignment="Center">File</RadioButton>
+            </UniformGrid>
+
+
+            <Grid Visibility="{Binding IsWriteVisibility ,UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.ColumnSpan="2"  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  Width="5*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <t:WatermarkTextBox FontSize="15" Height="30" Watermark="Enter words separated by commas"  Text="{Binding ForbiddenWords, UpdateSourceTrigger=PropertyChanged}" Padding="5" Margin="10" Grid.Column="0" Visibility="{Binding IsWriteVisibility}"  VerticalAlignment="Center"/>
+                <Button Command="{Binding ForbiddenClearCommand}" Grid.Column="1">🗑 Clear</Button>
+            </Grid>
+
+
+            <Grid Visibility="{Binding IsFileVisibility,UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.ColumnSpan="2"  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  Width="5*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+             
+                <TextBlock Text="{Binding ForbiddenWordsPath, UpdateSourceTrigger=PropertyChanged}" Padding="5" Margin="10"></TextBlock>
+                <Button Command="{Binding ForbiddenWordPathCommand}"  Grid.Column="1">📁</Button>
+            </Grid>
+
+            
+            <UniformGrid Grid.Row="3"  Grid.ColumnSpan="2"  Columns="3">
+                <Label FontSize="20" HorizontalContentAlignment="Center">Searching folder by :</Label>
+                <RadioButton IsChecked="{Binding IsName,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center">Name</RadioButton>
+                <RadioButton Grid.Row="1"  Grid.Column="2" HorizontalAlignment="Center">Path</RadioButton>
+            </UniformGrid>
+
+            <Grid Visibility="{Binding IsNameVisibility,UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.ColumnSpan="2"  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  Width="5*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <t:WatermarkTextBox FontSize="15" Height="30" Watermark="Enter folder name" Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}" Padding="5" Margin="10" Grid.Column="0"  VerticalAlignment="Center"/>
+                <Button Command="{Binding SearchClearCommand}" Grid.Column="1">🗑 Clear</Button>
+            </Grid>
+
+            <Grid Visibility="{Binding IsPathVisibility,UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.ColumnSpan="2"  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  Width="5*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding SearchPath, UpdateSourceTrigger=PropertyChanged}" Padding="5" Margin="10"></TextBlock>
+                <Button Command="{Binding SearchFolderPathCommand}"   Grid.Column="1">📁</Button>
+            </Grid>
+
+
+            <Grid  Grid.Row="5" Grid.ColumnSpan="2"  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  Width="5*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding WhereCopy, UpdateSourceTrigger=PropertyChanged}" Padding="5" Margin="10"></TextBlock>
+                <Button Command="{Binding WhereCopyCommand , UpdateSourceTrigger=PropertyChanged}"   Grid.Column="1">📁</Button>
+            </Grid>
+
+            <Button Grid.Row="6" Grid.ColumnSpan="4" IsEnabled="{Binding StartButton}" Command="{Binding StartCommand}">Start</Button>
+             
+             
+        </Grid>
+        <ListBox ItemsSource="{Binding ListsInfo}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Label HorizontalAlignment="Center" HorizontalContentAlignment="Center" DockPanel.Dock="Top" Content="{Binding StartTime, StringFormat=Time : (0)}"></Label>
+                        <UniformGrid DockPanel.Dock="Top" Background="LightCoral" Columns="2" >
+                            <TextBlock FontWeight="Bold" Foreground="Blue">Files path</TextBlock>
+                            <TextBlock FontWeight="Bold" Foreground="Blue">Statistic</TextBlock>
+                        </UniformGrid>
+                        <UniformGrid Background="LightGray" Columns="2"> 
+                            <ListBox ItemsSource="{Binding FilesPath}"/>
+                            <ListBox ItemsSource="{Binding Statistic}"/>
+                        </UniformGrid>
+                    </DockPanel>  
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</UserControl>
